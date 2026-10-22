@@ -91,4 +91,14 @@
 - 질문: Actor 안에 `UPROPERTY() UMyItem* ItemA;`와 `UMyItem* ItemB;`(UPROPERTY 없음). 둘 다 NewObject로 만들어 두고 GC가 한 번 돌면?
   - 내 예측 1: ItemA는 쓰지 않을 때 해제되겠지만, ItemB는 해제되지 않고 계속 남아 있는다. 하지만 그걸 아무도 모르게 된다.
   - 내 예측 2 (지워진 쪽 포인터에 남는 것): 쓰레기 값?
-  - 실행 결과:
+  - 코드: UMyItem(BeginDestroy에서 이름 로그), LifecycleActor에 `UPROPERTY() UMyItem* ItemA;`, `UMyItem* ItemB;`, BeginPlay에서 `NewObject<UMyItem>(this, TEXT("ItemA"))` / `"ItemB"`
+  - 실행 결과 (플레이 중 콘솔에 `obj gc`):
+    ```
+    12.10.24  Cmd: obj gc
+              Collecting garbage and resetting GC timer.
+              BeginDestroy: ItemB          ← GC 직후 바로 지워짐
+    12.10.29  Tick 118.24 → EndPlay
+              BeginDestroy: ItemA          ← 플레이가 끝나 Actor가 사라진 뒤에야 지워짐
+    ```
+  - 내 해석: 음.. 봤는데 GC에서 UPROPERTY가 없으니 그냥 지워 버리네.
+  - 리뷰: 예측과 정반대. GC는 UPROPERTY가 붙은 포인터만 "누가 쓰고 있다"로 본다. ItemB는 C++에서는 분명히 가리키고 있지만 GC 눈에는 아무도 안 쓰는 객체라 바로 지운다. ItemA는 Actor가 살아 있는 동안 지켜진다. 그리고 ItemB 변수에는 여전히 지워진 주소가 남는다 (댕글링 포인터). 예측 2의 "쓰레기 값"은 이 뜻에 가깝다.

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "MyItem.h"
 #include "LifecycleActor.generated.h"
 
 UCLASS()
@@ -18,6 +19,12 @@ public:
 
 	UPROPERTY()
 	int32 num = 0;
+
+	UPROPERTY()
+	UMyItem* ItemA;
+
+	UMyItem* ItemB;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

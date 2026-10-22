@@ -22,8 +22,12 @@ void ALifecycleActor::PostInitializeComponents()
 void ALifecycleActor::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("BeginPlay")); 
+	UE_LOG(LogTemp, Warning, TEXT("BeginPlay"));
 	UE_LOG(LogTemp, Warning, TEXT("BeginPlay: %s, World: %s"), *GetName(), GetWorld() ? TEXT("yes") : TEXT("no"));
+
+	ItemA = NewObject<UMyItem>(this, TEXT("ItemA"));
+	ItemB = NewObject<UMyItem>(this, TEXT("ItemB"));
+
 
 }
 
