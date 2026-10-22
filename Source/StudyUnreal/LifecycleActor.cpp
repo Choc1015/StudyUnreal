@@ -15,14 +15,16 @@ ALifecycleActor::ALifecycleActor()
 void ALifecycleActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	UE_LOG(LogTemp, Warning, TEXT("PostInitializeComponents"));
+	UE_LOG(LogTemp, Warning, TEXT("PostInitializeComponents: %s, World: %s"), *GetName(), GetWorld() ? TEXT("yes") : TEXT("no"));
 }
 
 // Called when the game starts or when spawned
 void ALifecycleActor::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("BeginPlay"));
+	UE_LOG(LogTemp, Warning, TEXT("BeginPlay")); 
+	UE_LOG(LogTemp, Warning, TEXT("BeginPlay: %s, World: %s"), *GetName(), GetWorld() ? TEXT("yes") : TEXT("no"));
+
 }
 
 void ALifecycleActor::EndPlay(const EEndPlayReason::Type EndPlayReason)

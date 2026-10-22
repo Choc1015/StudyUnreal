@@ -69,5 +69,14 @@
   - 내 반응: 오잉 신기하네
   - 다음 질문: 그럼 월드를 믿고 쓸 수 있는 건 언제부터? PostInitializeComponents와 BeginPlay에서도 World 확인
     - 내 예측: 둘 다 yes
-    - 실행 결과:
+    - 실행 결과 (이번엔 레벨이 저장된 상태로 에디터를 켬):
+      ```
+      에디터 켜짐   Constructor: Default__LifecycleActor, World: no
+      레벨 로드     Constructor: LifecycleActor_1, World: no     ← 저장된 레벨에서 불러올 때도 월드 없음
+      플레이        Constructor: LifecycleActor_1, World: no
+                    PostInitializeComponents: LifecycleActor_1, World: yes
+                    BeginPlay: LifecycleActor_1, World: yes
+      정지          Tick 117.94 → EndPlay
+      ```
+      예측 맞음. 게임용 Actor는 생성자에서는 월드가 없고, PostInitializeComponents부터 있다.
   - 내 해석:
