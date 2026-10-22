@@ -6,10 +6,11 @@
 // Sets default values
 ALifecycleActor::ALifecycleActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	UE_LOG(LogTemp, Warning, TEXT("ALifecycleActor"));
+	UE_LOG(LogTemp, Warning, TEXT("ALifecycleActor")); 
+	UE_LOG(LogTemp, Warning, TEXT("Constructor: %s"), *GetName());
 }
 
 void ALifecycleActor::PostInitializeComponents()
@@ -23,14 +24,13 @@ void ALifecycleActor::BeginPlay()
 {
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("BeginPlay"));
-	
 }
 
 void ALifecycleActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	UE_LOG(LogTemp, Warning, TEXT("Tick %f"), num/GetWorld()->GetTimeSeconds());
+	UE_LOG(LogTemp, Warning, TEXT("Tick %f"), num / GetWorld()->GetTimeSeconds());
 	UE_LOG(LogTemp, Warning, TEXT("EndPlay"));
 }
 

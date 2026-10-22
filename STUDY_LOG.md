@@ -41,3 +41,15 @@
               → PostInitializeComponents → BeginPlay
     ```
     생성자 5번, PostInitializeComponents와 BeginPlay는 각 1번. 각 생성자가 무엇 때문인지는 다음 실험에서 이름을 찍어 확인한다.
+- 생성자에 `GetName()` 추가
+  - 첫 빌드 에러: `static_assert failed: 'missing format specifier'` → 로그 문자열에 한글을 넣었는데 파일이 CP949로 저장되어, UTF-8로 컴파일할 때 깨져서 %s를 못 찾음. 로그 문자열은 영어로.
+  - 결과 (에디터 켜기 → 끌어다 놓기 → 플레이 → 정지):
+    ```
+    09.23.53  에디터 켜짐            Constructor: Default__LifecycleActor
+    09.25.05  끌고 오는 중            Constructor: LifecycleActor_0
+    09.25.05  놓음                    Constructor: LifecycleActor_UAID_D843AE25E2BAA40D03_2040172423
+    09.25.14  플레이 (레벨 복사 중)   Constructor: LifecycleActor_UAID_..._2040172423
+    09.25.14  플레이                  Constructor: LifecycleActor_UAID_..._2040172423
+                                      PostInitializeComponents → BeginPlay
+              정지                    Tick 116.57 → EndPlay
+    ```
