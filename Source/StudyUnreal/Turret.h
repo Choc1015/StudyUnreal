@@ -19,6 +19,8 @@ public:
 	UPROPERTY()
 	TWeakObjectPtr<ATargetDummy> FindObject = nullptr;
 
+	ATargetDummy* RawTarget;
+
 	UPROPERTY()
 	float TimeCheck = 0;
 

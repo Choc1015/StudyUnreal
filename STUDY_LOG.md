@@ -153,3 +153,6 @@
   - 내 발견: 근데 일단 transform이 없어서 안 나옴. → 거리가 0이었던 진짜 이유. 빈 Actor는 루트 컴포넌트가 없어서 Transform도 없고 위치가 (0,0,0). (Claude의 "같은 자리에 놓여서"라는 추측은 틀렸음)
   - 수정: 두 Actor의 생성자에 `RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));` (생성자에서 컴포넌트 만들기 = 언리얼 1에서 말한 "초깃값")
   - 실행 결과: `500.000000` (예측 맞음). 그 전에 다른 위치에서 한 번은 `305.286743` → `Target lost`
+- 3단계: 같은 대상을 일반 포인터(`ATargetDummy* RawTarget`, UPROPERTY 없음)로도 들고, 1초마다 nullptr인지 찍기
+  - 내 예측 (대상이 사라진 뒤 `Raw is null`): Yes
+  - 실행 결과:

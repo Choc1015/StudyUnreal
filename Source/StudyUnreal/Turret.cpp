@@ -19,6 +19,7 @@ void ATurret::BeginPlay()
 
 	AActor* Found = UGameplayStatics::GetActorOfClass(GetWorld(), ATargetDummy::StaticClass());
 	FindObject = Cast<ATargetDummy>(Found);
+	RawTarget = Cast<ATargetDummy>(Found);
 
 }
 
@@ -41,7 +42,7 @@ void ATurret::Tick(float DeltaTime)
 			TimeCheck = 0;	
 		}
 
-
+		UE_LOG(LogTemp, Warning, TEXT("Raw is null: %s"), RawTarget == nullptr ? TEXT("yes") : TEXT("no"));
 
 	}
 }
