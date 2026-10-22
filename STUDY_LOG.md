@@ -107,4 +107,12 @@
 - 실험: `TWeakObjectPtr<UMyItem> WatchA;`(ItemA를 봄), `TWeakObjectPtr<UMyItem> ItemC;`(새 MyItem을 이것만 듦). 플레이 → obj gc → 정지
   - 내 예측 1 (`BeginDestroy: ItemC`는 언제?): 정지할 때 나오겠지?
   - 내 예측 2 (EndPlay에서 WatchA valid / ItemC valid): yes, no 나오지 않을까? WatchA는 ItemA가 사라져도 안 사라지니까?
+  - 첫 실행은 obj gc가 빠져서 다시 함
   - 실행 결과:
+    ```
+    13.24.23  Collecting garbage (obj gc)
+              BeginDestroy: ItemC          ← GC 직후 지워짐 (예측 1은 "정지할 때")
+    13.24.29  WatchA valid: yes            ← 예측 2 맞음
+              ItemC valid: no              ← 예측 2 맞음
+              BeginDestroy: ItemA          ← 정지할 때
+    ```
