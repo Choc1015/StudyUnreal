@@ -156,3 +156,11 @@
 - 3단계: 같은 대상을 일반 포인터(`ATargetDummy* RawTarget`, UPROPERTY 없음)로도 들고, 1초마다 nullptr인지 찍기
   - 내 예측 (대상이 사라진 뒤 `Raw is null`): Yes
   - 실행 결과:
+    ```
+    14.21.23  TargetDummy EndPlay: TargetDummy_1
+    14.21.34  obj gc
+    14.22.00  obj gc
+    14.22.03  Target lost / Raw is null: no
+    ...       (정지할 때까지 계속) Target lost / Raw is null: no
+    ```
+  - 리뷰: 예측과 반대. 대상이 사라지고 GC가 두 번 돌아도 RawTarget은 nullptr가 되지 않았다. 지워진 대상의 주소를 그대로 들고 있는 댕글링 포인터. weak는 같은 순간 "Target lost"를 정확히 알았다.
