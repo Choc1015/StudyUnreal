@@ -7,7 +7,7 @@
 | 과제 | 상태 |
 |---|---|
 | 언리얼 1: Actor 생명주기 | 완료 (2026-10-22) |
-| 언리얼 2: UPROPERTY와 GC | |
+| 언리얼 2: UPROPERTY와 GC | 완료 (2026-10-22) |
 
 ---
 
@@ -116,3 +116,14 @@
               ItemC valid: no              ← 예측 2 맞음
               BeginDestroy: ItemA          ← 정지할 때
     ```
+  - 질문: WatchA도 weak인데 왜 yes였을까? 누가 ItemA를 살려 뒀을까?
+    - 내 해석: UPROPERTY에서 살려 둔 거 아닐까?
+    - 리뷰: 정확하다. ItemA를 지킨 건 `UPROPERTY() UMyItem* ItemA`이고, WatchA는 그 옆에서 보기만 했다. 예측할 때의 이유("WatchA는 ItemA가 사라져도 안 사라지니까")는 거꾸로였다. weak는 대상을 살려 두지 않고, 대상이 사라지면 같이 invalid가 된다.
+  - 정리:
+    | 스마트 포인터 단원 | 언리얼 UObject | GC가 돌면 |
+    |---|---|---|
+    | shared_ptr (살려 둠) | `UPROPERTY()` 포인터 | 지켜짐 |
+    | weak_ptr (보기만, 지워진 걸 앎) | `TWeakObjectPtr` | 지켜 주지 않음, 지워지면 IsValid() false |
+    | 일반 포인터 | UPROPERTY 없는 포인터 | 지켜 주지 않음, 지워져도 모름 (댕글링) |
+
+**언리얼 2 완료.**
