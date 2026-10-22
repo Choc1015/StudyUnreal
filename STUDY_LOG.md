@@ -59,3 +59,12 @@
 - 다음 실험: 생성자에서 `GetWorld()`가 있을까?
   - 내 예측: ① CDO 없음 / ② 미리보기 없음 / ③ 레벨에 놓인 것 있음 / ④ 플레이 복사 중 있음 / ⑤ 플레이 있음
   - 실행 결과:
+    ```
+    ① Default__LifecycleActor          World: no    (예측 맞음)
+    ② LifecycleActor_0 (미리보기)       World: yes   (예측 틀림)
+    ③ 레벨에 놓인 것                    World: yes   (예측 맞음)
+    ④ 플레이 복사 중                    World: no    (예측 틀림)
+    ⑤ 플레이                            World: no    (예측 틀림)
+    ```
+  - 내 반응: 오잉 신기하네
+  - 내 해석:

@@ -9,8 +9,7 @@ ALifecycleActor::ALifecycleActor()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	UE_LOG(LogTemp, Warning, TEXT("ALifecycleActor")); 
-	UE_LOG(LogTemp, Warning, TEXT("Constructor: %s"), *GetName());
+	UE_LOG(LogTemp, Warning, TEXT("Constructor: %s, World: %s"), *GetName(), GetWorld() ? TEXT("yes") : TEXT("no"));
 }
 
 void ALifecycleActor::PostInitializeComponents()
