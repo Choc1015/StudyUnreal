@@ -134,3 +134,6 @@
 - 출발점 (블로그 16편): 이해는 했는데, 중요한 건 진짜 게임 만들 때 어찌 쓰이는지 과정을 보고 싶다.
 - 상황: 포탑(ATurret)이 대상(ATargetDummy)을 계속 바라보며 거리를 잰다. 대상은 3초 뒤 스스로 사라진다. 포탑은 대상을 살려 둘 책임이 없다.
 - 1단계: ATargetDummy (BeginPlay에서 3초 수명, 사라질 때 로그)
+  - 코드: Tick 끔, BeginPlay에서 `SetLifeSpan(3.0f)`, EndPlay에서 이름 로그
+  - 결과: 플레이 13.43.18.468 → `TargetDummy EndPlay: TargetDummy_1` 13.43.21.419 (약 2.95초 뒤) ✅
+- 2단계: ATurret (대상을 TWeakObjectPtr로 들고 1초마다 거리 로그)
