@@ -104,3 +104,7 @@
   - 리뷰: 예측과 정반대. GC는 UPROPERTY가 붙은 포인터만 "누가 쓰고 있다"로 본다. ItemB는 C++에서는 분명히 가리키고 있지만 GC 눈에는 아무도 안 쓰는 객체라 바로 지운다. ItemA는 Actor가 살아 있는 동안 지켜진다. 그리고 ItemB 변수에는 여전히 지워진 주소가 남는다 (댕글링 포인터). 예측 2의 "쓰레기 값"은 이 뜻에 가깝다.
 - 질문: 가리키고는 싶지만 살려 둘 책임은 없을 때, 지워졌는지는 알 수 있는 포인터는? 언리얼에서는 이름이 뭘까?
   - 내 답: TObjectWeakPtr → 개념은 정확 (weak_ptr). 실제 이름은 `TWeakObjectPtr`.
+- 실험: `TWeakObjectPtr<UMyItem> WatchA;`(ItemA를 봄), `TWeakObjectPtr<UMyItem> ItemC;`(새 MyItem을 이것만 듦). 플레이 → obj gc → 정지
+  - 내 예측 1 (`BeginDestroy: ItemC`는 언제?): 정지할 때 나오겠지?
+  - 내 예측 2 (EndPlay에서 WatchA valid / ItemC valid): yes, no 나오지 않을까? WatchA는 ItemA가 사라져도 안 사라지니까?
+  - 실행 결과:

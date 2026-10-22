@@ -23,7 +23,14 @@ public:
 	UPROPERTY()
 	UMyItem* ItemA;
 
-	UMyItem* ItemB;
+	UPROPERTY()
+	TWeakObjectPtr<UMyItem> WatchA;
+
+	UPROPERTY()
+	TWeakObjectPtr<UMyItem> ItemC;
+
+
+
 
 protected:
 	// Called when the game starts or when spawned

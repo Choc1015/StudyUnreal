@@ -26,7 +26,8 @@ void ALifecycleActor::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("BeginPlay: %s, World: %s"), *GetName(), GetWorld() ? TEXT("yes") : TEXT("no"));
 
 	ItemA = NewObject<UMyItem>(this, TEXT("ItemA"));
-	ItemB = NewObject<UMyItem>(this, TEXT("ItemB"));
+	WatchA = ItemA;
+	ItemC = NewObject<UMyItem>(this, TEXT("ItemC"));
 
 
 }
@@ -35,8 +36,8 @@ void ALifecycleActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	UE_LOG(LogTemp, Warning, TEXT("Tick %f"), num / GetWorld()->GetTimeSeconds());
-	UE_LOG(LogTemp, Warning, TEXT("EndPlay"));
+	UE_LOG(LogTemp, Warning, TEXT("WatchA valid: %s"), WatchA.IsValid() ? TEXT("yes") : TEXT("no"));
+	UE_LOG(LogTemp, Warning, TEXT("ItemC valid: %s"), ItemC.IsValid() ? TEXT("yes") : TEXT("no"));
 }
 
 // Called every frame
