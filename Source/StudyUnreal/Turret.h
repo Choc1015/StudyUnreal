@@ -19,6 +19,7 @@ public:
 	UPROPERTY()
 	TWeakObjectPtr<ATargetDummy> FindObject = nullptr;
 
+	UPROPERTY()
 	ATargetDummy* RawTarget;
 
 	UPROPERTY()

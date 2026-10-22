@@ -164,3 +164,15 @@
     ...       (정지할 때까지 계속) Target lost / Raw is null: no
     ```
   - 리뷰: 예측과 반대. 대상이 사라지고 GC가 두 번 돌아도 RawTarget은 nullptr가 되지 않았다. 지워진 대상의 주소를 그대로 들고 있는 댕글링 포인터. weak는 같은 순간 "Target lost"를 정확히 알았다.
+- 내가 해 본 추가 실험: RawTarget에 `UPROPERTY()`를 붙여 봄
+  - 내 관찰: 그 전에 UPROPERTY 매크로를 하고 했는데, 이번에는 GC 후에 yes가 떠.
+  - 결과:
+    ```
+    14.27.00  500.000000 / Raw is null: no
+              TargetDummy EndPlay: TargetDummy_1
+    14.27.01  Target lost / Raw is null: no      ← 대상은 사라졌는데 아직 no
+    14.27.04  Target lost / Raw is null: no
+    14.27.08  Obj GC
+    14.27.08  Target lost / Raw is null: yes     ← GC가 돈 뒤에 nullptr이 됨
+    ```
+  - 리뷰: UPROPERTY 포인터는 GC가 "따라가는" 포인터라서, 가리키던 Actor가 Destroy되어 있으면 GC가 돌 때 그 포인터를 nullptr로 바꿔 준다. 하지만 Destroy부터 GC까지는 여전히 nullptr이 아니다 (이 사이 약 7초). 그래서 nullptr 확인만으로는 부족하고, 이 틈에는 `IsValid(RawTarget)`로 확인해야 한다. weak는 Destroy 직후부터 바로 안다.
