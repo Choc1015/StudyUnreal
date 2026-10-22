@@ -137,3 +137,15 @@
   - 코드: Tick 끔, BeginPlay에서 `SetLifeSpan(3.0f)`, EndPlay에서 이름 로그
   - 결과: 플레이 13.43.18.468 → `TargetDummy EndPlay: TargetDummy_1` 13.43.21.419 (약 2.95초 뒤) ✅
 - 2단계: ATurret (대상을 TWeakObjectPtr로 들고 1초마다 거리 로그)
+  - 코드: `UPROPERTY() TWeakObjectPtr<ATargetDummy> FindObject`, BeginPlay에서 `GetActorOfClass` + `Cast`, Tick에서 DeltaTime을 모아 1초마다 `IsValid()`면 거리, 아니면 "Target lost"
+  - (예측은 건너뛰고 바로 실행함)
+  - 결과:
+    ```
+    14.00.08  0.000000
+    14.00.09  0.000000
+    14.00.10  0.000000
+    14.00.10  TargetDummy EndPlay: TargetDummy_1
+    14.00.11  Target lost
+    ...       Target lost (정지할 때까지)
+    ```
+  - 리뷰: 동작은 정확하다. 대상이 사라진 뒤 바로 다음 로그부터 "Target lost", 크래시 없음. 다만 거리가 0이라 포탑과 대상이 같은 자리에 놓여 있는 것 같다. 떨어뜨려 놓아야 "대상을 보고 있다"가 숫자로 드러난다.
