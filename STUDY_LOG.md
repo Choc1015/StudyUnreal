@@ -67,4 +67,7 @@
     ⑤ 플레이                            World: no    (예측 틀림)
     ```
   - 내 반응: 오잉 신기하네
+  - 다음 질문: 그럼 월드를 믿고 쓸 수 있는 건 언제부터? PostInitializeComponents와 BeginPlay에서도 World 확인
+    - 내 예측: 둘 다 yes
+    - 실행 결과:
   - 내 해석:
