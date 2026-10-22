@@ -18,5 +18,26 @@
 - 내 예측 (함수가 불리는 순서): 생성자 → PostInitializeComponents → BeginPlay → Tick → EndPlay
   - 생성자는 한 번만 불릴까? → 아니, 에디터 상에 놓일 때 한 번이랑 플레이 누를 때?
   - Tick은 몇 번? → 1초에 60번
-- 실행 결과:
-- 내 해석:
+- 코드: `ALifecycleActor` (생성자, PostInitializeComponents, BeginPlay, EndPlay에 UE_LOG, Tick은 횟수만 세서 EndPlay에서 `num / GetTimeSeconds()` 출력)
+- 실행 결과 (출력 로그에서 복사):
+  ```
+  ALifecycleActor
+  ALifecycleActor
+  PostInitializeComponents
+  BeginPlay
+  Tick 115.467026
+  EndPlay
+  ```
+- 내 해석: tick은 n번을 초로 나눈 건데, 보니까 내 컴퓨터에 맞는 성능 fps가 나온 거 같고 나머지는 예상대로 나온 거 같아.
+- 리뷰:
+  - Tick 해석은 정확하다. Tick은 "1초에 60번"이 아니라 **프레임마다 한 번**이라, 초당 횟수 = 그 컴퓨터의 FPS. 그래서 Tick 안의 움직임은 DeltaTime을 곱해야 컴퓨터마다 같은 속도가 된다.
+  - 생성자는 예상보다 훨씬 많이 불렸다. 전체 로그 파일(`Saved/Logs/StudyUnreal.log`)을 시간순으로 보면:
+    ```
+    08.42.34  에디터 켜짐 (프레임 0, 레벨에 아무것도 없음)  → ALifecycleActor
+    08.43.17  Actor를 뷰포트로 끌고 오는 중               → ALifecycleActor
+    08.43.18  놓음 (사이에 "Deleted 0 Actors")            → ALifecycleActor
+    08.43.26  플레이: "Creating play world package" 직후 → ALifecycleActor
+    08.43.26  플레이: PostInitializeComponents 바로 앞  → ALifecycleActor
+              → PostInitializeComponents → BeginPlay
+    ```
+    생성자 5번, PostInitializeComponents와 BeginPlay는 각 1번. 각 생성자가 무엇 때문인지는 다음 실험에서 이름을 찍어 확인한다.
